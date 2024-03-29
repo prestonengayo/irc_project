@@ -1,21 +1,20 @@
 import express, { Request, Response } from 'express';
 
-
-import bodyParser from 'body-parser';
-// Import routes
-//import chatRoutes from './routes/chatRoutes';
-//import userRoutes from './routes/userRoutes';
+import indexRoutes from './routes/indexRoutes';
+import userRoutes from './routes/userRoutes';
+import chatRoutes from './routes/chatRoutes';
 
 // Creating the Express application instance
 const app = express();
 
 // Middleware for parsing JSON request bodies
-app.use(bodyParser.json());
+app.use(express.json());
 
 
-// Use Routes
-//app.use('/chat', chatRoutes);
-//app.use('/user', userRoutes);
+// Middleware for use Routes
+app.use('/', indexRoutes);
+app.use('/user', userRoutes);
+app.use('/chat', chatRoutes);
 
 // Middleware for handling not found routes
 app.use((req: Request, res: Response) => {
