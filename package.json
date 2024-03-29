@@ -2,10 +2,13 @@
   "name": "myirc",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/server.js",
+    "dev": "nodemon -e ts -x ts-node src/server.ts",
+    "build": "tsc"
+  },  
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -16,9 +19,11 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.11.30",
     "@types/socket.io": "^3.0.2",
     "eslint": "^8.57.0",
     "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   }
 }
