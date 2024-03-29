@@ -1,9 +1,9 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import { showLoginForm, showRegistration } from '../controllers/indexController';
 
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!');
-});
+router.get('/', showLoginForm); // show login page 
+router.get('/registration', showRegistration); // show registration page
 
 export default router;
