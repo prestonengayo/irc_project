@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-const mongoose = require('mongoose');
 
 import bodyParser from 'body-parser';
 // Import routes
@@ -11,12 +10,6 @@ const app = express();
 
 // Middleware for parsing JSON request bodies
 app.use(bodyParser.json());
-
-// Connexion à MongoDB
-mongoose.connect('mongodb+srv://team:gIkEwOcKbxr9o1bk@myirc.p4cjyiw.mongodb.net/test?retryWrites=true&w=majority',)
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
-
 
 // Use Routes
 //app.use('/chat', chatRoutes);
