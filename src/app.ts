@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+
 import indexRoutes from './routes/indexRoutes';
 import userRoutes from './routes/userRoutes';
 import chatRoutes from './routes/chatRoutes';
@@ -14,8 +15,6 @@ app.use(express.json());
 app.use('/', indexRoutes);
 app.use('/user', userRoutes);
 app.use('/chat', chatRoutes);
-
-
 
 // Middleware for handling not found routes
 app.use((req: Request, res: Response) => {

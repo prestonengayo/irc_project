@@ -1,2 +1,5 @@
-# Groupe de ozdami_b 1033747
+# Projet MyIRC
+
+# GROUPE 
+# Chahra REDIF | Prestone Olaf NGAYO NZAMBI | Bella OZDAMIROVA
 
