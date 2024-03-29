@@ -1,12 +1,11 @@
 import { Router, Request, Response } from 'express';
-import { sendMessage } from '../controllers/chatController';
+import { showChat, sendMessage, showPrivateChat } from '../controllers/chatController';
 
 const router = Router();
 
 router.post('/messages', sendMessage);
-router.get('/', (req: Request, res: Response) => {
-    res.send('Get message');
-});
+router.get('/', showChat);
+router.get('/private', showPrivateChat);
 
 
 export default router;

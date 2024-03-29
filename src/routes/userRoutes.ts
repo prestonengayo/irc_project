@@ -1,12 +1,11 @@
 import { Router, Request, Response } from 'express';
-import { loginUser, registerUser } from '../controllers/userController';
+import { handleLogin, handleRegistration, showReset } from '../controllers/userController';
 
 const router = Router();
 
-router.post('/register', registerUser);
-router.post('/login', loginUser);
-router.get('/', (req: Request, res: Response) => {
-    res.send('get user');
-});
+router.post('/login', handleLogin); // call this function when check user login info 
+router.post('/checkRegistration', handleRegistration); // call this function when check user registration info
+
+router.get('/reset', showReset);
 
 export default router;
