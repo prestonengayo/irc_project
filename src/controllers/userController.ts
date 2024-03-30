@@ -4,14 +4,28 @@ import bcrypt from 'bcrypt';
 
 // Process login data
 export const handleLogin = async (req: Request, res: Response) => {
-    const { username, password } = req.body;
+
+    const { email, password } = req.body;
+
     try {
-        //const user = await User.findByCredentials(username, password); // Mock method to find the user
-        if (true) {
-            // Session management/login success logic
-            res.redirect('/chatRoutes'); // Redirect to a secure page after login
+
+        const user = await User.findOne({ email }); // Mock method to find the use
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid credentials.' });
         }
-    } catch (error) {
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.status(400).json({ error: 'Invalid credentials.' });
+        }
+
+        res.redirect('/chatRoutes'); // Redirect to a secure page after login
+        res.status(200).json({
+            userId: user._id,
+            token: 'TOKEN'
+        });
+    }
+    catch (error) {
         res.render('index', { error: 'Incorrect credentials.' });
     }
 };
@@ -40,8 +54,8 @@ export const showReset = async (req: Request, res: Response) => {
 /////////////////////////////////// CRUD //////////////////////////////////
 
 
-  ////////////////
- //// CREATE //// 
+////////////////
+//// CREATE //// 
 ////////////////
 
 export const createUser = async (req: Request, res: Response) => {
@@ -66,8 +80,8 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 
-  ////////////////
- //// GET ALL ///
+////////////////
+//// GET ALL ///
 ////////////////
 
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -80,8 +94,8 @@ export const getAllUsers = async (req: Request, res: Response) => {
     }
 }
 
-  ////////////////////////
- //// GET ONE WITH ID ///
+////////////////////////
+//// GET ONE WITH ID ///
 ////////////////////////
 
 export const getUserById = async (req: Request, res: Response) => {
@@ -98,8 +112,8 @@ export const getUserById = async (req: Request, res: Response) => {
     }
 }
 
-  ///////////////
- //// UPDATE ///
+///////////////
+//// UPDATE ///
 ///////////////
 
 export const updateUser = async (req: Request, res: Response) => {
@@ -116,8 +130,8 @@ export const updateUser = async (req: Request, res: Response) => {
     }
 }
 
-  ///////////////
- //// DELETE ///
+///////////////
+//// DELETE ///
 ///////////////
 
 export const deleteUser = async (req: Request, res: Response) => {
