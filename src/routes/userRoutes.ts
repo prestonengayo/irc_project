@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
-import { handleLogin, handleRegistration, showReset } from '../controllers/userController';
-import * as userController from '../controllers/userController';
+import { handleLogin, handleRegistration, showReset, getUserById, getAllUsers, createUser, deleteUser, updateUser } from '../controllers/userController';
+
 
 const router = Router();
 
@@ -9,15 +9,10 @@ router.post('/checkRegistration', handleRegistration); // call this function whe
 
 router.get('/reset', showReset);
 
-
-
-
-
-
-
-
-// test root bella
-//router.post('/add', userController.createUser);
-//router.get('/get/:userId', userController.getUserById );
+router.post('/add', createUser);
+router.get('/get/:userId', getUserById );
+router.get('/all', getAllUsers);
+router.delete('/del/:userId', deleteUser);
+router.put('/set/:userId', updateUser);
 
 export default router;
