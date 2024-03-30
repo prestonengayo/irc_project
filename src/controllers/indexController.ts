@@ -97,6 +97,7 @@ export const updateChannel = async (req: Request, res: Response) => {
         if(!deletedChannel) {
             return res.status(404).json({message: 'Houston, we have a problem! Channel not found.'});
         }
+        res.status(200).json({message: 'Channel deleted. You won\'t see it again'});
     } catch (error) {
         console.error('Error deleting the channel... Hmm, that\'s not good.', error);
         res.status(500).json({message: 'Error deleting the channel... Hmm, that\'s not good my friend.'});

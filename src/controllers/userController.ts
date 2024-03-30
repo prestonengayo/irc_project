@@ -118,6 +118,7 @@ export const deleteUser = async (req: Request, res: Response) => {
         if(!deletedUser) {
             return res.status(404).json({message: 'Houston, we have a problem! User not found.'});
         }
+        res.status(200).json({message: 'User deleted. You won\'t see it again'});
     } catch (error) {
         console.error('Error deleting the channel... Hmm, that\'s not good.', error);
         res.json({message: 'Error deleting the channel... Hmm, that\'s not good my friend.'});
