@@ -20,10 +20,6 @@ export const handleLogin = async (req: Request, res: Response) => {
         }
 
         res.redirect('/chatRoutes'); // Redirect to a secure page after login
-        res.status(200).json({
-            userId: user._id,
-            token: 'TOKEN'
-        });
     }
     catch (error) {
         res.render('index', { error: 'Incorrect credentials.' });
