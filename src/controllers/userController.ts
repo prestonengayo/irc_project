@@ -18,7 +18,7 @@ export const handleLogin = async (req: Request, res: Response) => {
 
 // Process registration data
 export const handleRegistration = async (req: Request, res: Response) => {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
     try {
         //const user = await User.findByCredentials(username, password); // Mock method to find the user
         if (true) {
@@ -45,11 +45,15 @@ export const showReset = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { username, password, isAdmin } = req.body;
-        const newUser = new User({ username, password, isAdmin });
+        const { username, password, email, isAdmin } = req.body;
+        const newUser = new User({ username, password, email, isAdmin });
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
     } catch (error) {
+        // Vérifier si l'erreur est due à l'unicité de l'email
+        if ((error as any).errors.email.kind === 'unique') {
+            return res.status(400).json({ message: 'This email already exists my friend.' });
+        }
         console.error('You won\'t belive .. Error creating the user:', error);
         res.status(500).json({ message: 'You won\'t belive .. Error creating the user:'});
 
