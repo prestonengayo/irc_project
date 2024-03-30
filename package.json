@@ -15,11 +15,13 @@
     "ejs": "^3.1.9",
     "express": "^4.19.2",
     "mongoose": "^8.2.4",
+    "mongoose-unique-validator": "^5.0.0",
     "socket.io": "^4.7.5"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/mongoose": "^5.11.97",
+    "@types/mongoose-unique-validator": "^1.0.9",
     "@types/node": "^20.11.30",
     "@types/socket.io": "^3.0.2",
     "eslint": "^8.57.0",

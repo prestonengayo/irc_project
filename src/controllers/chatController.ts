@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import Message from '../models/chatModel';
-import { channel } from 'diagnostics_channel';
 
 // Display the chat page
 export const showChat = (req: Request, res: Response) => {
@@ -35,8 +34,8 @@ export const sendMessage = async (req: Request, res: Response) => {
 
 export const createMessage = async (req: Request, res: Response) => {
     try {
-        const { content, user, channel, createdAt } = req.body;
-        const newMessage = new Message({ content, user, channel, createdAt });
+        const { content, user, channel, createdAt } = req.body;// if ...req.body then without this line.
+        const newMessage = new Message({ content, user, channel, createdAt }); //or just ...req.body
         const savedMessage = await newMessage.save();
         res.status(201).json(savedMessage);
     } catch (error) {
