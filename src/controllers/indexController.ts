@@ -29,8 +29,8 @@ export const createChannel = async (req: Request, res: Response) => {
         const savedChannel = await newChannel.save();
         res.status(201).json(savedChannel);
     } catch (error) {
-        console.error('Erreur lors de la création du canal :', error);
-        res.status(500).json({ message: 'Erreur lors de la création du canal.' });
+        console.error('Wow.. Error creating the channel :', error);
+        res.status(500).json({ message: 'Wow.. Error creating the channel.' });
     }
 };
 
@@ -44,8 +44,8 @@ export const getAllChannels = async (req: Request, res: Response) => {
         const channels = await Channel.find();
         res.status(200).json(channels);
     }catch (error) {
-        console.error('Erreur lors de la récupération des Channels :', error);
-        res.status(500).json({ message: 'Erreur lors de la récupération des Channels.' });
+        console.error('Wow.. Error retrieving the channels:', error);
+        res.status(500).json({ message: 'Wow.. Error retrieving the channels.' });
     }
 };
 
@@ -58,12 +58,12 @@ export const getChannelById = async (req: Request, res: Response) => {
         const { channelId } = req.params;
         const channel = await Channel.findById(channelId);
         if (!channel) {
-            return res.status(404).json({message: 'Wow ! On a un problème.. Channel non trouvé.'})
+            return res.status(404).json({message: 'Houston, we have a problem! Channel not found.'})
         }
         res.status(200).json(channel);
     } catch (error) {
-        console.error('Erreur lors de la récupération du Channel :', error);
-        res.status(500).json({ message: 'Erreur lors de la récupération du Channel.' });
+        console.error('Wow.. Error retrieving the channel:', error);
+        res.status(500).json({ message: 'Wow.. Error retrieving the channel' });
     }
 };
 
@@ -77,12 +77,12 @@ export const updateChannel = async (req: Request, res: Response) => {
         const  {channelId} = req.params;
         const updatedChannel = await Channel.findByIdAndUpdate(channelId, req.body, { new: true });
         if(!updatedChannel){
-            return res.status(404).json({message: 'Wow ! On a un problème.. Channel non trouvé.' });
+            return res.status(404).json({message: 'Houston, we have a problem! Channel not found.' });
         }
         res.status(200).json(updatedChannel);
     }catch (error) {
-        console.error('Erreur lors de la mise à jour du Channel :', error);
-        res.status(500).json({ message: 'Erreur lors de la mise à jour du Channel.' });
+        console.error('You won\'t believe.. Error updating the channel', error);
+        res.status(500).json({ message: 'You won\'t believe.. Error updating the channel' });
     }
 }
 
@@ -95,10 +95,10 @@ export const updateChannel = async (req: Request, res: Response) => {
         const {channelId} = req.params;
         const deletedChannel = await Channel.findByIdAndDelete(channelId);
         if(!deletedChannel) {
-            return res.status(404).json({message: 'Wow ! On a un problème.. Channel non trouvé.'});
+            return res.status(404).json({message: 'Houston, we have a problem! Channel not found.'});
         }
     } catch (error) {
-        console.error('Erreur lors de la suppression du canal la .. Hmm C\'est pas bon ça ', error);
-        res.status(500).json({message: 'Erreur lors de la suppression du canal amigo ..'});
+        console.error('Error deleting the channel... Hmm, that\'s not good.', error);
+        res.status(500).json({message: 'Error deleting the channel... Hmm, that\'s not good my friend.'});
     }
  };
