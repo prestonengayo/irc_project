@@ -26,6 +26,11 @@ app.use('/user', userRoutes);
 app.use('/chat', chatRoutes);
 
 
+
+//test roots bella
+//app.use('/add', userRoutes);
+//app.use('/get', userRoutes);
+
 // Middleware for handling not found routes
 app.use((req: Request, res: Response) => {
   res.status(404).send('Page not found');
