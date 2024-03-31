@@ -27,20 +27,6 @@ export const handleLogin = async (req: Request, res: Response) => {
 };
 
 
-// Process registration data
-export const handleRegistration = async (req: Request, res: Response) => {
-    const { username, password, email } = req.body;
-    try {
-        //const user = await User.findByCredentials(username, password); // Mock method to find the user
-        if (true) {
-            // Session management/login success logic
-            res.redirect('/indexRoutes'); // Redirect to a secure page after login
-        }
-    } catch (error) {
-        res.render('index', { error: 'Incorrect credentials.' });
-    }
-};
-
 
 // Display reset password page
 export const showReset = async (req: Request, res: Response) => {
@@ -56,24 +42,43 @@ export const showReset = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     try {
+        // Extracting fields from req.body
+        const { username, email, password, confirmPassword } = req.body; 
 
-        const { username, password, email, isAdmin } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ username, password: hashedPassword, email, isAdmin });
-        const savedUser = await newUser.save();
-        res.status(201).json(savedUser);
-
-    } catch (error) {
-
-        // If the error is cuz the email exists already
-        if ((error as any).errors.email.kind === 'unique') {
-            return res.status(400).json({ message: 'This email already exists my friend.' });
+        // Check if the passwords match
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: "Passwords do not match." });
         }
-        console.error('You won\'t belive .. Error creating the user:', error);
-        res.status(500).json({ message: 'You won\'t belive .. Error creating the user:' });
 
+        // Hashing the password and creating the user
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
+            username,
+            password: hashedPassword,
+            email,
+            isAdmin: false 
+        });
+        const savedUser = await newUser.save();
+        
+        // Redirect to '/chat' after successful account creation
+        return res.redirect('/chat');
+    } catch (error) {
+        // Handling MongoDB validation and uniqueness errors
+        if ((error as any).name === 'ValidationError' || (error as any).code === 11000) {
+            let message = 'Validation error';
+            if ((error as any).code === 11000) {
+                message = 'This email already exists.';
+            } else if ((error as any).errors?.email?.kind === 'unique') {
+                message = 'This email already exists.';
+            }
+            return res.status(400).json({ message });
+        }
+
+        console.error('Error creating the user:', error);
+        return res.status(500).json({ message: 'Error creating the user.' });
     }
 };
+
 
 
 ////////////////
