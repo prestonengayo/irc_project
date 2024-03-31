@@ -3,9 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chat</title>
 </head>
 <body>
     <p>Chat</p>
+    <ul id="messages"></ul> <!-- Ajoutez cet élément pour afficher les messages -->
+    <form id="messageForm">
+        <input type="text" id="messageInput" placeholder="Tapez votre message ici..." autocomplete="off">
+        <button type="submit">Envoyer</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io('http://localhost:3000');
+        
+        var form = document.getElementById('messageForm');
+        var messageInput = document.getElementById('messageInput');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (messageInput.value) {
+                socket.emit('public_message', messageInput.value);
+                messageInput.value = '';
+            }
+        });
+
+        
+        socket.on('public_message', function(msg) {
+            var item = document.createElement('p');
+            item.textContent = msg;
+            document.getElementById('messages').appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+    </script>
 </body>
 </html>
