@@ -19,11 +19,8 @@ export const handleLogin = async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Invalid credentials.' });
         }
 
-<<<<<<< HEAD
-        res.redirect('/chat/messages'); // Redirect to a secure page after login
-=======
         res.redirect('/chat'); // Redirect to a secure page after login
->>>>>>> dev
+
     }
     catch (error) {
         res.render('index', { error: 'Incorrect credentials.' });
