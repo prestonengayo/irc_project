@@ -18,7 +18,7 @@ export const sendMessage = async (req: Request, res: Response) => {
         //const user = await User.findByCredentials(username, password); 
         if (true) {
             // Session management/login success logic
-            res.redirect('/chatRoutes'); 
+            res.redirect('/chat'); 
         }
     } catch (error) {
         res.render('index', { error: 'Identifiants incorrects.' });

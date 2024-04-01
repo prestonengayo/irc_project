@@ -1,11 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <p>Chat</p>
-</body>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chat | Mon IRC</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <form id="chat-container">
+      <h1>Chat IRC</h1>
+      <div id="messages"></div>
+      <input
+        type="text"
+        id="message-input"
+        placeholder="Écrivez votre message ici..."
+      />
+      <button id="send-button">Envoyer</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io('http://localhost:3000');
+      
+      var form = document.getElementById('chat-container');
+      var messageInput = document.getElementById('message-input');
+      var messagesContainer = document.getElementById('messages');
+  
+      form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (messageInput.value) {
+
+        const messageId = Date.now();
+
+
+        addItemToChat(messageInput.value, 'sent', messageId);
+
+        socket.emit('public_message', { text: messageInput.value, id: messageId });
+
+        messageInput.value = '';
+    }
+});
+
+function addItemToChat(message, className, messageId) {
+    var item = document.createElement('p');
+    item.textContent = message;
+    item.classList.add(className);
+    item.setAttribute('data-id', messageId);
+    messagesContainer.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+}
+
+socket.on('public_message', function(data) {
+    if (!document.querySelector(`[data-id="${data.id}"]`)) {
+        addItemToChat(data.text, 'received', data.id);
+    }
+});
+
+  </script>
+  
+  </body>
 </html>
