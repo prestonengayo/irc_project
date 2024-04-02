@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { handleLogin, showReset, getUserById, getAllUsers, createUser, deleteUser, updateUser } from '../controllers/userController';
+import { requestPasswordReset, handleLogin, showReset, getUserById, getAllUsers, createUser, deleteUser, updateUser } from '../controllers/userController';
 
 
 const router = Router();
@@ -7,6 +7,7 @@ const router = Router();
 router.post('/login', handleLogin); // call this function when check user login info 
 
 router.get('/reset', showReset);
+router.post('/reset', requestPasswordReset);
 
 router.post('/add', createUser);
 router.get('/get/:userId', getUserById );
