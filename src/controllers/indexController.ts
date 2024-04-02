@@ -3,34 +3,58 @@ import Channel from '../models/indexModel';
 import User from '../models/userModel';
 
 
-// Display the login page
+  ////////////////////////////
+ //// DISPLAY LOGIN PAGE //// 
+////////////////////////////
 export const showLoginForm = (req: Request, res: Response) => {
     res.render('index', { error: null }); 
 };
 
 
-// Display registration page
+  ///////////////////////////////////
+ //// DISPLAY REGISTRATION PAGE //// 
+///////////////////////////////////
 export const showRegistration = async (req: Request, res: Response) => {
     res.render('registration', { error: null }); 
 };
 
-
 /////////////////////////////////// CRUD //////////////////////////////////
-
 
   ////////////////
  //// CREATE //// 
 ////////////////
 
+
 export const createChannel = async (req: Request, res: Response) => {
     try {
-        const { name, description } = req.body; //{} extrait la valeur et stock dans les variable name et description
-        const newChannel = new Channel({ name, description });
-        const savedChannel = await newChannel.save();
-        res.status(201).json(savedChannel);
+        const { name, description, type, members } = req.body;
+
+        let membersToAdd = Array.isArray(members) ? members : members ? [members] : [];
+        
+        // add userId to membersToAdd
+        membersToAdd.push(req.session.userId);
+
+        if (type === 'public') {
+            const newChannel = new Channel({ 
+                name, 
+                description, 
+                type
+            });
+            await newChannel.save();
+            return res.redirect('/chat');
+        } else {
+            const newChannel = new Channel({ 
+                name, 
+                description, 
+                type, 
+                members: membersToAdd 
+            });
+            await newChannel.save();
+            return res.redirect('/chat');
+        }
     } catch (error) {
         console.error('Wow.. Error creating the channel :', error);
-        res.status(500).json({ message: 'Wow.. Error creating the channel.' });
+        return res.status(500).json({ message: 'Wow.. Error creating the channel.' });
     }
 };
 

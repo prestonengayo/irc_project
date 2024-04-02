@@ -3,18 +3,22 @@ body {
   margin: 0;
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  
 }
 
 #login-container,
 #chat-container {
   max-width: 600px;
-  margin: auto;
+  margin:auto;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  width:90%;
 }
 input[type="email"],
 input[type="text"],
+select,
 input[type="password"] {
   width: 96%;
   padding: 10px;
@@ -23,7 +27,7 @@ input[type="password"] {
   border-radius: 5px;
 }
 
-button {
+button, #containerBtn a , #showCreateChannel{
   width: 100%;
   padding: 10px;
   background-color: #007bff;
@@ -60,4 +64,67 @@ button {
   padding: 5px;
   border-radius: 8px;
   margin: 4px 0;
+}
+
+
+#bar{
+  width: 25%;
+  position: relative;
+  left : 5%;
+}
+
+#bar select, #channels select{
+  width: 100%;
+}
+
+
+#channels{
+  width: 30%;
+  margin: 0px auto
+}
+#channel-name, #channel-desc{
+  width: 95%;
+}
+
+#channels-list{
+  width: 100%;
+  max-height: 400px; 
+  overflow-x: scroll;
+}
+
+#containerBtn{
+  display: flex;
+  justify-content: space-between
+}
+
+#containerBtn a, #containerBtn button{
+  width: 35%;
+}
+#containerBtn a{
+  text-decoration: none;
+  text-align: center
+}
+
+#showCreateChannel {
+  text-decoration: none;
+  display: block;
+  margin-bottom: 20px;
+  width: 95%
+}
+
+
+.channel-selected {
+  background-color: #ececec;
+}
+
+.channel-option{
+  cursor: pointer;
+}
+
+.channel-option:hover{
+    background-color: #ececec;
+}
+
+hr{
+  color: #ececec;
 }
