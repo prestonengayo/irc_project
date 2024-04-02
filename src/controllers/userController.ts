@@ -4,6 +4,9 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 
+
+/////////////////////////////////// LOGIN & REGISTRATION & PASSWORD RESET //////////////////////////////////
+
 // Process login data
 export const handleLogin = async (req: Request, res: Response) => {
 
@@ -60,7 +63,7 @@ export const registerUser = async (req: Request, res: Response) => {
         await newUser.save();
 
         console.log(`Guess what ? you're in :p ${username} ! It worked !`);
-        
+
 
 
     } catch (error) {
@@ -72,14 +75,18 @@ export const registerUser = async (req: Request, res: Response) => {
 
 // Password Lost User Process 
 
+export const askReset = (req: Request, res: Response) => {
+    res.render('askLink', { error: null });
+};
+
 // generating token for passw
 const generateToken = () => {
     return crypto.randomBytes(20).toString('hex'); // A random hexadecimal string of 40 characters, representing 20 bytes of random data.
 };
 
 // saving token in db
-const saveResetToken = async (email: string, token: string) => {
-    await User.updateOne({ email }, { resetPasswordToken: token });
+const saveResetToken = async (email: string, token: string,) => {//time: Date
+    await User.updateOne({ email }, { resetPasswordToken: token });// { resetPasswordExpires: time}
 }
 const smtpUsername = '4948a2620958689777a4049301d90ea7';
 const smtpPassword = '5428433b0c42039379f5d5277a1dc996';
@@ -100,43 +107,106 @@ const sendResetEmail = async (email: string, token: string) => {
         subject: 'Réinitialisation du mot de passe',
         text: `Vous avez demandé une réinitialisation de mot de passe.\n\n` +
             `Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe :\n\n` +
-            `http://1721623628:3000/reset/${token} \n\n` +
+            `http://localhost:3000/user/reset/${token} \n\n` +
             `Si vous n'avez pas demandé cela, veuillez ignorer cet e-mail.\n`
     };
 
     await transporter.sendMail(mailOptions);
 }
 
-// Request for mail reset 
-export const requestPasswordReset = async (req: Request, res: Response) => {
+// Request for mail send 
+export const passwordResetMail = async (req: Request, res: Response) => {
     try {
         const { email } = req.body;
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: "User not found .. Maybe a mistake in the email ?" });
         }
-
         const resetToken = generateToken();
-        await saveResetToken(email, resetToken);
+        //const currentTime = new Date();
+        await saveResetToken(email, resetToken,);
         await sendResetEmail(email, resetToken);
-
-        res.status(200).json({ message: "Email for password reset just sent !"});
-        console.log("All good , message sent.");
-        //return res.render('resetRequestSent');
+        return res.render('resetRequestSent', { error: null });
     } catch (error) {
         console.error(' Error while trying to send the email for password reset. ', error);
-        res.status(500).json({ message: 'Error while trying to send the email for password reset.'});
+        res.status(500).json({ message: 'Error while trying to send the email for password reset.' });
     }
 };
 
+// Receive the token and register the knew password
+
+export const renderResetPasswordPage = async (req: Request, res: Response) => {
+    try {
+
+        const { token } = req.params;
+        const user = await User.findOne({ resetPasswordToken: token });
+
+        if (!user) {
+            return res.status(400).json({ message: 'User not found.' });
+        }
+        const userId = user._id;
+
+        console.log('Token:', token);
+        console.log('UserID:', userId);
+
+        //const creationTime = user.resetPasswordExpires.getTime();
+        //const expirationTime = creationTime + (5 * 60 * 1000); // Add 5 minutes in milliseconds
+        //const currentTime = Date.now();
+
+        // if (currentTime > expirationTime) {
+        //     return res.status(400).json({ message: 'Password reset token is invalid or has expired. '});
+        // }
+
+        // if all good render page for password reset
+        res.render('resetPassword', { userId: userId, token: token });
+    } catch (error) {
+        console.error('Error rendering password reset page:', error);
+        res.status(500).json({ message: 'Error rendering password reset page.' });
+    }
+}
+
+
+export const savePassword = async (req: Request, res: Response) => {
+
+    try {
+
+        const { password, confirmPassword, userId } = req.body;
 
 
 
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: "Passwords do not match" });
+        }
 
-// Display reset password page
-export const showReset = async (req: Request, res: Response) => {
-    res.render('resetPassword', { error: null });
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is missing" });
+        }
+
+        // Check if good pass length 
+        if (password.length < 8) {
+            return res.status(400).json({ message: "Password must be at least 8 characters long" });
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Update the password in the database
+        const updatedUser = await User.findByIdAndUpdate(userId, { password: hashedPassword }, { new: true });
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+
+        return res.render('passwordDone', { error: null });
+
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        res.status(500).json({ message: 'Error resetting password' });
+    }
+
 };
+
 
 /////////////////////////////////// CRUD //////////////////////////////////
 
