@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/userModel';
 import bcrypt from 'bcrypt';
-import crypto from 'crypto';
-import nodemailer from 'nodemailer';
+import { passwordResetMail } from '../utils/mail/mailSend';
 
 
 /////////////////////////////////// LOGIN & REGISTRATION & PASSWORD RESET //////////////////////////////////
@@ -11,9 +10,7 @@ import nodemailer from 'nodemailer';
 export const handleLogin = async (req: Request, res: Response) => {
 
     const { email, password } = req.body;
-
     try {
-
         const user = await User.findOne({ email }); // Mock method to find the use
         if (!user) {
             return res.status(400).json({ error: 'Invalid credentials.' });
@@ -23,9 +20,7 @@ export const handleLogin = async (req: Request, res: Response) => {
         if (!passwordMatch) {
             return res.status(400).json({ error: 'Invalid credentials.' });
         }
-
         res.redirect('/chat'); // Redirect to a secure page after login
-
     }
     catch (error) {
         res.render('index', { error: 'Incorrect credentials.' });
@@ -79,57 +74,14 @@ export const askReset = (req: Request, res: Response) => {
     res.render('askLink', { error: null });
 };
 
-// generating token for passw
-const generateToken = () => {
-    return crypto.randomBytes(20).toString('hex'); // A random hexadecimal string of 40 characters, representing 20 bytes of random data.
-};
-
-// saving token in db
-const saveResetToken = async (email: string, token: string,) => {//time: Date
-    await User.updateOne({ email }, { resetPasswordToken: token });// { resetPasswordExpires: time}
-}
-const smtpUsername = '4948a2620958689777a4049301d90ea7';
-const smtpPassword = '5428433b0c42039379f5d5277a1dc996';
-
-const sendResetEmail = async (email: string, token: string) => {
-    const transporter = nodemailer.createTransport({
-        host: 'in-v3.mailjet.com',
-        port: 25,
-        secure: false, // true for TLS, false for no secur
-        auth: {
-            user: smtpUsername, // key API Mailjet
-            pass: smtpPassword // secret API Mailjet
-        }
-    });
-    const mailOptions = {
-        from: 'ozdami_b@etna-alternance.net',
-        to: email,
-        subject: 'Réinitialisation du mot de passe',
-        text: `Vous avez demandé une réinitialisation de mot de passe.\n\n` +
-            `Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe :\n\n` +
-            `http://localhost:3000/user/reset/${token} \n\n` +
-            `Si vous n'avez pas demandé cela, veuillez ignorer cet e-mail.\n`
-    };
-
-    await transporter.sendMail(mailOptions);
-}
-
-// Request for mail send 
-export const passwordResetMail = async (req: Request, res: Response) => {
+// Function to send message for passw reset
+export const passwordResetController = async (req: Request, res: Response) => {
     try {
-        const { email } = req.body;
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(404).json({ message: "User not found .. Maybe a mistake in the email ?" });
-        }
-        const resetToken = generateToken();
-        //const currentTime = new Date();
-        await saveResetToken(email, resetToken,);
-        await sendResetEmail(email, resetToken);
-        return res.render('resetRequestSent', { error: null });
+        
+        await passwordResetMail(req, res);
     } catch (error) {
-        console.error(' Error while trying to send the email for password reset. ', error);
-        res.status(500).json({ message: 'Error while trying to send the email for password reset.' });
+        console.error('Erreur lors de l\'appel de la fonction passwordResetMail :', error);
+        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction passwordResetMail.' });
     }
 };
 
