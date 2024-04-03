@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import { Request, Response } from 'express';
-import nodemailer from 'nodemailer';
-import User from '../../models/userModel';
+import User from '../../../../models/userModel';
 import { sendResetEmail } from './mailPrepare';
 
 

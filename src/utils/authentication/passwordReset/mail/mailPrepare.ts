@@ -1,4 +1,3 @@
-
 import nodemailer from 'nodemailer';
 
 const smtpUsername = '4948a2620958689777a4049301d90ea7';

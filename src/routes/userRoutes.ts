@@ -1,15 +1,16 @@
-import { Router, Request, Response } from 'express';
-import { savePassword, renderResetPasswordPage, passwordResetController, handleLogin, getUserById, getAllUsers, createUser, deleteUser, updateUser, askReset } from '../controllers/userController';
+import { Router} from 'express';
+import { savePasswordController, renderResetPasswordPageController, registerUserController, handleLoginController,  passwordResetController, getUserById, getAllUsers, createUser, deleteUser, updateUser, askReset, handleLogoutController } from '../controllers/userController';
 
 
 const router = Router();
 
-router.post('/login', handleLogin); // call this function when check user login info 
+router.post('/login', handleLoginController); 
+router.get('/logout', handleLogoutController);
+router.get('/ask-reset', askReset); 
+router.post('/send-mail', passwordResetController); 
+router.get('/reset/:token', renderResetPasswordPageController); 
+router.post('/save-password', savePasswordController); 
 
-router.get('/ask-reset', askReset); // ok
-router.post('/send-mail', passwordResetController); // ok
-router.get('/reset/:token', renderResetPasswordPage); // ok
-router.post('/save-password', savePassword); // ok
 
 
 

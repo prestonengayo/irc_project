@@ -1,83 +1,59 @@
 import { Request, Response } from 'express';
+import { passwordResetMail } from '../utils/authentication/passwordReset/mail/mailSend';
+import { handleLogin } from '../utils/authentication/login';
+import { handleLogout } from '../utils/authentication/logout';
+import { registerUser } from '../utils/authentication/register';
+import { renderResetPasswordPage } from '../utils/authentication/passwordReset/renderResetPasswordPage'; 
+import { savePassword } from '../utils/authentication/passwordReset/savePassword';
 import User from '../models/userModel';
 import bcrypt from 'bcrypt';
-import { passwordResetMail } from '../utils/mail/mailSend';
 
 
-/////////////////////////////////// LOGIN & REGISTRATION & PASSWORD RESET //////////////////////////////////
 
-// Process login data
-export const handleLogin = async (req: Request, res: Response) => {
+// ================= LOGIN ================= //
 
-    const { email, password } = req.body;
+
+// Login
+export const handleLoginController = async (req: Request, res: Response) => {
     try {
-        const user = await User.findOne({ email }); // Mock method to find the use
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid credentials.' });
-        }
-
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
-            return res.status(400).json({ error: 'Invalid credentials.' });
-        }
-        res.redirect('/chat'); // Redirect to a secure page after login
-    }
-    catch (error) {
-        res.render('index', { error: 'Incorrect credentials.' });
-    }
-};
-
-// User Registration Process
-
-export const registerUser = async (req: Request, res: Response) => {
-    try {
-        const { username, email, password, confirmPassword } = req.body;
-
-        // checking massword match
-        if (password !== confirmPassword) {
-            return res.status(400).json({ message: "Passwords dont't match my friend !" });
-        }
-
-        // checking email unique or not ( exists already or not)
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: "This account already axists !" });
-        }
-
-        // Hashing pass
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Here is our new great user
-        const newUser = new User({
-            username,
-            password: hashedPassword,
-            email,
-            isAdmin: false
-        });
-
-        await newUser.save();
-
-        console.log(`Guess what ? you're in :p ${username} ! It worked !`);
-
-
-
+        await handleLogin(req, res);
     } catch (error) {
-        console.error("Guess what? There is an error while I'm trying to create an account for you!", error);
-        res.status(500).json({ message: "Guess what? There is an error while I'm trying to create an account for you!" });
+        console.error('Erreur lors de l\'appel de la fonction handleLogin :', error);
+        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction handleLogin.' });
     }
-
 };
 
-// Password Lost User Process 
+// Logout
+export const handleLogoutController = async (req: Request, res: Response) => {
+ try {
+    await handleLogout(req, res);
+ }catch(error) {
+    console.error('Erreur lors de l\'appel de la fonction handleLogout :', error);
+    res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction handleLogout.' });
+    
+ }
+};
+
+// ================= REGISTRATION ================= //
+
+export const registerUserController = async (req: Request, res: Response) => {
+    try {
+        await registerUser(req, res);
+    } catch (error) {
+        console.error('Erreur lors de l\'appel de la fonction registerUser :', error);
+        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction registerUser.' });
+    }
+};
+
+// ================= PASSWORD RESET ================= // 
 
 export const askReset = (req: Request, res: Response) => {
-    res.render('askLink', { error: null });
+    res.render('./askLink', { error: null });
 };
 
 // Function to send message for passw reset
 export const passwordResetController = async (req: Request, res: Response) => {
     try {
-        
         await passwordResetMail(req, res);
     } catch (error) {
         console.error('Erreur lors de l\'appel de la fonction passwordResetMail :', error);
@@ -86,77 +62,23 @@ export const passwordResetController = async (req: Request, res: Response) => {
 };
 
 // Receive the token and register the knew password
-
-export const renderResetPasswordPage = async (req: Request, res: Response) => {
+export const renderResetPasswordPageController = async (req: Request, res: Response) => {
     try {
-
-        const { token } = req.params;
-        const user = await User.findOne({ resetPasswordToken: token });
-
-        if (!user) {
-            return res.status(400).json({ message: 'User not found.' });
-        }
-        const userId = user._id;
-
-        console.log('Token:', token);
-        console.log('UserID:', userId);
-
-        //const creationTime = user.resetPasswordExpires.getTime();
-        //const expirationTime = creationTime + (5 * 60 * 1000); // Add 5 minutes in milliseconds
-        //const currentTime = Date.now();
-
-        // if (currentTime > expirationTime) {
-        //     return res.status(400).json({ message: 'Password reset token is invalid or has expired. '});
-        // }
-
-        // if all good render page for password reset
-        res.render('resetPassword', { userId: userId, token: token });
+        await renderResetPasswordPage(req, res);
     } catch (error) {
-        console.error('Error rendering password reset page:', error);
-        res.status(500).json({ message: 'Error rendering password reset page.' });
+        console.error('Erreur lors de l\'appel de la fonction renderResetPasswordPage :', error);
+        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction renderResetPasswordPage.' });
     }
-}
+};
 
-
-export const savePassword = async (req: Request, res: Response) => {
-
+// Save the knew password
+export const savePasswordController = async (req: Request, res: Response) => {
     try {
-
-        const { password, confirmPassword, userId } = req.body;
-
-
-
-        if (password !== confirmPassword) {
-            return res.status(400).json({ message: "Passwords do not match" });
-        }
-
-        if (!userId) {
-            return res.status(400).json({ message: "User ID is missing" });
-        }
-
-        // Check if good pass length 
-        if (password.length < 8) {
-            return res.status(400).json({ message: "Password must be at least 8 characters long" });
-        }
-
-        // Hash the new password
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Update the password in the database
-        const updatedUser = await User.findByIdAndUpdate(userId, { password: hashedPassword }, { new: true });
-
-        if (!updatedUser) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-
-        return res.render('passwordDone', { error: null });
-
+        await savePassword(req, res);
     } catch (error) {
-        console.error('Error resetting password:', error);
-        res.status(500).json({ message: 'Error resetting password' });
+        console.error('Erreur lors de l\'appel de la fonction savePassword :', error);
+        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction savePassword.' });
     }
-
 };
 
 
