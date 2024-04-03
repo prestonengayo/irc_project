@@ -45,9 +45,25 @@ io.on('connection', (socket) => {
 
 
     // Private chat 
-    socket.on('private_message', (data) => {
-        const { message, toUserId } = data;
-        socket.to(toUserId).emit('private_message', { message, from: socket.id });
+    socket.on('private_message', async (msg) => {
+        try {
+            // Créez un nouveau message à partir des données reçues
+            const newMessage = new Message({
+                content: msg.content,
+                user: msg.user,
+                channel: msg.channel,
+                receiverId: msg.receiverId,
+                messageType: msg.messageType,
+                createdAt: msg.createdAt
+            });
+
+            // Enregistrez le nouveau message dans la base de données
+            const savedMessage = await newMessage.save();
+            // Envoyez le message enregistré à tous les clients connectés
+            io.emit('private_message', savedMessage);
+        } catch (error) {
+            console.error('Error saving message:', error);
+        }
     });
 
     // Group Chat

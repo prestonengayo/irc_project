@@ -34,7 +34,7 @@ export const createChannel = async (req: Request, res: Response) => {
         // add userId to membersToAdd
         membersToAdd.push(req.session.userId);
 
-        if (type === 'public') {
+        if (type === 'public_message') {
             const newChannel = new Channel({ 
                 name, 
                 description, 

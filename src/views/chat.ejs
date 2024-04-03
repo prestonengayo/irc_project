@@ -11,10 +11,9 @@
       <a id="showCreateChannel" href="/chat/channels">Créer un canal</a>
       <div id="channels-list">
         <% channels.forEach(function(channel) { %>
-          <% if (channel.type === 'public_message' || (channel.type === 'group_message' && channel.members.includes(userId))) { %>
+          <% if (channel.type === 'public_message' || (channel.type === 'group_message' && channel.members.includes(userId)) || (channel.type === 'private_message' && channel.members.includes(userId))) { %>
             <div class="channel-option" data-channel-id="<%= channel._id %>">
               <p><%= channel.name %></p>
-              <p><%= channel.description %></p>
               <hr>
             </div>
           <% } %>
@@ -32,12 +31,64 @@
       />
       <button id="send-button">Envoyer</button>
     </form>
+    <div id="bar">
+      <a id="showCreateChannel">Liste des utilisateurs</a>
+      <div id="user-list">
+        <% users.forEach(function(user) { %>
+          <% if (user._id.toString() !== userId.toString()) { %>
+            <div class="user-option" data-user-id="<%= user._id %>" onclick="createOrSelectPrivateChannel('<%= user._id %>', '<%= user.username %>')">
+              <p><%= user.username %></p>
+              <hr>
+            </div>
+          <% } %>
+        <% }); %>
+      </div>      
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io('http://localhost:3000');
       var channel;
       var userId = "<%= userId %>";
-      
+
+
+      // Select the channel that has the main or primary text.
+      document.addEventListener('DOMContentLoaded', (event) => {
+        const paragraphs = document.querySelectorAll('p');
+        paragraphs.forEach((p) => {
+            if(p.textContent.trim() === "principal" || p.textContent.trim() === "principale") {
+                p.click(); 
+                return; 
+            }
+        });
+    });
+
+      //create private channel
+      function createOrSelectPrivateChannel(otherUserId, otherName) {
+        fetch('/channels', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: otherName,
+            description:`${otherName}`,
+            type:"private_message",
+            members: otherUserId
+          })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data); 
+        })
+        .catch(error => {
+          console.error('Could not create or select private channel:', error);
+        });
+      }
 
       // When a channel is selected, load its messages
       document.querySelectorAll('.channel-option').forEach(option => {
@@ -50,7 +101,7 @@
           // Ajouter la classe 'channel-selected' au canal cliqué
           option.classList.add('channel-selected');
           const channelId = option.dataset.channelId;
-          const channelType = option.dataset.channelType;//document.getElementById('channel-type').value;
+          const channelType = option.dataset.channelType;
     
           let members; // Declare the members variable
     
@@ -123,12 +174,24 @@
     
       // Modify the Socket.IO listeners to use the modified function and check the user ID
       socket.on('public_message', function(data) {
-          addItemToChat(data.content, 'received', data.user, data.user);
+      if (channel && channel.channelId === data.channel && (channel.channelType === 'public_message' || channel.channelType === 'group_message')) {
+              addItemToChat(data.content, 'received', data.messageId, data.user, data.createdAt);
+          }
       });
-    
+
+      socket.on('private_message', function(data) {
+          if (channel && channel.channelId === data.channel && channel.channelType === 'private_message' && channel.members.includes(userId)) {
+              addItemToChat(data.content, 'received', data.messageId, data.user, data.createdAt);
+          }
+      });
+
       socket.on('group_message', function(data) {
-          addItemToChat(data.content, 'received', data.user, data.user);
+          if (channel && channel.channelId === data.channel && channel.channelType === 'group_message' && channel.members.includes(data.user)) {
+              addItemToChat(data.content, 'received', data.messageId, data.user, data.createdAt);
+          }
       });
+
+
     
       async function loadChannelMessages(channelId) {
           try {
@@ -150,7 +213,6 @@
                       addItemToChat(message.content, 'received', userId);
                   }
     
-                  //messagesContainer.appendChild(item);
               });
           } catch (error) {
               console.error('Error loading channel messages:', error);
