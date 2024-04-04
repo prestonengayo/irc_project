@@ -32,6 +32,21 @@ export const showCreateChannel = async (req: Request, res: Response) => {
 };
 
 
+//delete channel
+export const deleteChannel = async (req: Request, res: Response) => {
+    try {
+        const { channelId } = req.params;
+       
+        await Channel.findByIdAndDelete(channelId);
+
+        console.log('Channel supprimé');
+        res.redirect('/channels'); 
+    } catch (error) {
+        console.error('Error deleting channel:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
 // manage session of user
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
     if (req.session && req.session.userId) {
