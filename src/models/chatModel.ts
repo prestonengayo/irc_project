@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 
-interface IMessage extends Document {
+export interface IMessage extends Document {
     content: string;
     user: Schema.Types.ObjectId; 
     channel?: Schema.Types.ObjectId; 
