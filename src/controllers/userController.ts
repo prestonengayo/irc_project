@@ -18,8 +18,8 @@ export const handleLoginController = async (req: Request, res: Response) => {
     try {
         await handleLogin(req, res);
     } catch (error) {
-        console.error('Erreur lors de l\'appel de la fonction handleLogin :', error);
-        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction handleLogin.' });
+        console.error('Error when calling the function handleLogin :', error);
+        res.status(500).json({ message: 'Error when calling the function handleLogin.' });
     }
 };
 
@@ -28,8 +28,8 @@ export const handleLogoutController = async (req: Request, res: Response) => {
  try {
     await handleLogout(req, res);
  }catch(error) {
-    console.error('Erreur lors de l\'appel de la fonction handleLogout :', error);
-    res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction handleLogout.' });
+    console.error('Error when calling the function handleLogout :', error);
+    res.status(500).json({ message: 'Error when calling the function handleLogout.' });
     
  }
 };
@@ -40,8 +40,8 @@ export const registerUserController = async (req: Request, res: Response) => {
     try {
         await registerUser(req, res);
     } catch (error) {
-        console.error('Erreur lors de l\'appel de la fonction registerUser :', error);
-        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction registerUser.' });
+        console.error('Error when calling the function registerUser :', error);
+        res.status(500).json({ message: 'Error when calling the function registerUser.' });
     }
 };
 
@@ -56,8 +56,8 @@ export const passwordResetController = async (req: Request, res: Response) => {
     try {
         await passwordResetMail(req, res);
     } catch (error) {
-        console.error('Erreur lors de l\'appel de la fonction passwordResetMail :', error);
-        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction passwordResetMail.' });
+        console.error('Error when calling the function passwordResetMail :', error);
+        res.status(500).json({ message: 'Error when calling the function passwordResetMail.' });
     }
 };
 
@@ -66,8 +66,8 @@ export const renderResetPasswordPageController = async (req: Request, res: Respo
     try {
         await renderResetPasswordPage(req, res);
     } catch (error) {
-        console.error('Erreur lors de l\'appel de la fonction renderResetPasswordPage :', error);
-        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction renderResetPasswordPage.' });
+        console.error('Error when calling the function renderResetPasswordPage :', error);
+        res.status(500).json({ message: 'Error when calling the function renderResetPasswordPage.' });
     }
 };
 
@@ -76,8 +76,8 @@ export const savePasswordController = async (req: Request, res: Response) => {
     try {
         await savePassword(req, res);
     } catch (error) {
-        console.error('Erreur lors de l\'appel de la fonction savePassword :', error);
-        res.status(500).json({ message: 'Erreur lors de l\'appel de la fonction savePassword.' });
+        console.error('Error when calling the function savePassword :', error);
+        res.status(500).json({ message: 'Error when calling the function savePassword.' });
     }
 };
 
