@@ -32,9 +32,11 @@ export const sendMessage = async (req: Request, res: Response) => {
 // Show all messages for a specific user
 export const getUserMessages = async (req: Request, res: Response) => {
     try {
-        const { userId } = req.params; 
-        const userMessages = await Message.find({ user: userId });
-        res.render('allUserChat', { messages: userMessages }); 
+        const { userId } = req.params;
+        const userConversations = await Message.find({
+            $or: [{ user: userId }, { receiverId: userId }] 
+        }); // populate prends tous les info des champs user et son interlocuteur
+        res.status(200).json({ userConversations });
     } catch (error) {
         console.error('Error while trying to retrieve all messages from the user :', error);
         res.status(500).json({ message: 'Error while trying to retrieve all messages from the user.' });
@@ -48,9 +50,9 @@ export const getMessagesBetweenDates = async (req: Request, res: Response) => {
         const { startDate, endDate } = req.body;
         const messages = await Message.find({
             createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
-        }); // Populate the 'user' field if you want to display user details
-
-        res.render('messagesBetweenDates', { messages }); 
+        }); // Populate 'user' = display user details
+ 
+        console.log({ messages }); 
     } catch (error) {
         console.error('Error retrieving messages between dates:', error);
         res.status(500).send('Error retrieving messages between dates.');

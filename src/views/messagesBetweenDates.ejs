@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messages Between Dates</title>
+    <title>Historique des Conversations</title>
 </head>
 <body>
-    <h1>Messages Between Dates</h1>
+    <h1>Historique des Conversations de l'Utilisateur</h1>
     <ul>
-        <% messages.forEach(message => { %>
+        <% conversations.forEach(conversation => { %>
             <li>
-                <% if (message.user) { %>
-                    <strong>User:</strong> <%= message.user.username %>
+                <strong>Expéditeur:</strong> <%= conversation.user.username %>
+                <br>
+                <% if (conversation.receiverId) { %>
+                    <strong>Destinataire:</strong> <%= conversation.receiverId.username %>
                 <% } else { %>
-                    <strong>User:</strong> Unknown
+                    <strong>Destinataire:</strong> Tous
                 <% } %>
                 <br>
-                <strong>Content:</strong> <%= message.content %>
+                <strong>Contenu:</strong> <%= conversation.content %>
             </li>
         <% }); %>
     </ul>
 </body>
 </html>
-
 <!-- Input exemple {
     "startDate": "2024-04-01T00:00:00.000Z",
     "endDate": "2024-04-04T23:59:59.999Z"
