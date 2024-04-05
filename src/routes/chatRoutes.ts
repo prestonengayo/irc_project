@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { getUserConversationsBetweenDatesController, isAuthenticated,showCreateChannel, getUserConversationsController, getAllMessagesByChannelId, createMessage, showChat, sendMessage, showPrivateChat, getAllMessages } from '../controllers/chatController';
+import { getUserConversationsBetweenDatesController, isAuthenticated,showCreateChannel, getUserConversationsController, getAllMessagesByChannelId, createMessage, showChat, showPrivateChat, getAllMessages } from '../controllers/chatController';
 
 
 const router = Router();
