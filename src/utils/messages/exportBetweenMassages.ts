@@ -1,4 +1,4 @@
-import Message from "../../models/chatModel";  
+/*import Message from "../../models/chatModel";  
 import { Request, Response } from 'express';
 import { writeUserConversationsToCSV } from './saveMessages';
 
@@ -17,4 +17,4 @@ export const exportChatBetween = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Errot while trying to export messages .. That\'s the error :', error);
     }
-}
+}*/

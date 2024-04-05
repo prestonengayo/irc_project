@@ -1,4 +1,4 @@
-import { createObjectCsvWriter } from 'csv-writer';
+/*import { createObjectCsvWriter } from 'csv-writer';
 import { IMessage } from '../../models/chatModel';
 
 
@@ -20,4 +20,4 @@ export const writeUserConversationsToCSV = async (messages: IMessage[]) => {
     await csvWriter.writeRecords(messages);
 
     console.log('Export Done!');
-};
+};*/

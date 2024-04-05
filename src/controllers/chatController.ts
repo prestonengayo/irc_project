@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import Message from '../models/chatModel';
-import { exportChatBetween } from '../utils/messages/exportBetweenMassages'; 
-import { exportUserConversationsAsCSV } from '../utils/messages/exportAllUserMessages';
+
 
 
 
@@ -28,7 +27,7 @@ export const sendMessage = async (req: Request, res: Response) => {
         res.render('index', { error: 'Identifiants incorrects.' });
     }
 };
-
+/*
 export const exportChatBetweenAsCSVController = async(req: Request, res: Response) => {
     try {
         const conversations = await exportChatBetween(req.body.startDate, req.body.endDate);
@@ -47,7 +46,7 @@ export const exportUserConversationsAsCSVController = async(req: Request, res: R
         console.error('Error when calling the function exportChatBetween :', error);
         res.status(500).json({ message: 'Error when calling the function exportChatBetween.' });
     }
-}
+}*/
 
 // Show all messages for a specific user
 export const getUserMessages = async (req: Request, res: Response) => {

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+/*import { Request, Response } from 'express';
 import Message from '../../models/chatModel';
 import { writeUserConversationsToCSV } from './saveMessages';
 
@@ -16,4 +16,4 @@ export const exportUserConversationsAsCSV = async (req: Request, res: Response) 
         console.error('Error while trying to export user conversations :', error);
         res.status(500).json({ message: 'Error while trying to export user conversations.' });
     }
-};
+};*/
