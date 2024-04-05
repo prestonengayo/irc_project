@@ -3,7 +3,7 @@ import { Server as SocketIOServer } from 'socket.io';
 import app from './app'; // Import the configured Express instance from app.ts
 import { connectDB } from './utils/db';
 import Message from './models/chatModel';
-
+import { initSocket, getIO } from "./config/socket";
 // Database connexion
 connectDB();
 
@@ -12,8 +12,8 @@ const PORT = 3000;
 const server = http.createServer(app); // use app here
 
 // Attach Socket.IO to an HTTP server
-const io = new SocketIOServer(server);
-
+initSocket(server);
+const io = getIO();
   /////////////////////////////////
  //// Socket.io configuration //// 
 /////////////////////////////////

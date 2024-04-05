@@ -95,6 +95,7 @@
       var userId = "<%= userId %>";
 
 
+
       // Select the channel that has the main or primary text.
       document.addEventListener('DOMContentLoaded', (event) => {
         const paragraphs = document.querySelectorAll('p');
@@ -239,8 +240,13 @@
           }
       });
 
+      //reload page if new channel created
+      socket.on('channel_created', (newChannel) => {
+        window.location.reload();
+      });
 
-    
+
+    // load message 
       async function loadChannelMessages(channelId) {
           try {
               const response = await fetch(`/chat/messages/${channelId}`); // Make sure you have an appropriate route to retrieve the messages from a specific channel
