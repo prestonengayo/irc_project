@@ -9,9 +9,7 @@ import User from '../models/userModel';
 import bcrypt from 'bcrypt';
 
 
-
 // ================= LOGIN ================= //
-
 
 // Login
 export const handleLoginController = async (req: Request, res: Response) => {
@@ -89,6 +87,7 @@ export const savePasswordController = async (req: Request, res: Response) => {
 //// CREATE //// 
 ////////////////
 
+
 export const createUser = async (req: Request, res: Response) => {
     try {
         // Extracting fields from req.body
@@ -109,8 +108,13 @@ export const createUser = async (req: Request, res: Response) => {
         });
         const savedUser = await newUser.save();
 
-        // Redirect to '/chat' after successful account creation
-        return res.redirect('/chat');
+        // Add the user's ID to the session here
+        if (req.session) {
+            req.session.userId = savedUser._id.toString(); 
+            return res.redirect('/chat/');
+        }
+        
+
     } catch (error) {
         // Handling MongoDB validation and uniqueness errors
         if ((error as any).name === 'ValidationError' || (error as any).code === 11000) {
@@ -127,8 +131,6 @@ export const createUser = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Error creating the user.' });
     }
 };
-
-
 
 ////////////////
 //// GET ALL ///

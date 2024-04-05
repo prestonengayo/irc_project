@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Canal | Mon IRC</title>
+</head>
+<body>
+  <header>
+    <p>My IRC Chat</p>
+    <div>
+      <p><%= username %></p> 
+      <a href="/user/logout">Déconnexion</a>
+    </div>
+  </header>
+    <div id="channels">
+        <h1>Créer un canal</h1>
+      
+        <form id="create-channel-form" action="/channels" method="post">
+          <input type="text" id="channel-name" name="name" placeholder="Nom du canal" required />
+          <input type="text" id="channel-desc" name="description" placeholder="Description du canal" required />
+          <select id="channel-type" name="type" onchange="toggleMemberSelect()">
+            <option value="public_message">Public</option>
+            <option value="group_message">Groupe</option>
+          </select>
+      
+          <select name="members" multiple id="members-select" style="display: none;">
+            <% users.forEach(function(user) { %>
+              <% if (user._id.toString() !== userId.toString()) { %>
+                <option value="<%= user._id %>"><%= user.username %></option>
+              <% } %>
+            <% }); %>
+          </select>
+          
+          <div id="containerBtn">
+            <a href="/chat">retour</a>
+            <button type="submit">Créer un canal</button>
+          </div>
+          
+        </form>
+      </div>
+      <script>
+
+          // Displaying and hiding the user list depending on whether the type is public or group
+          function toggleMemberSelect() {
+              var typeSelect = document.getElementById('channel-type');
+              var memberSelect = document.querySelector('select[name="members"]');
+              
+              if (typeSelect.value === 'group_message') {
+              memberSelect.style.display = 'block';
+              } else {
+              memberSelect.style.display = 'none';
+              }
+          }
+          toggleMemberSelect();
+            
+      </script>
+</body>
+</html>
