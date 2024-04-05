@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Message from '../models/chatModel';
-import { exportChatBetween } from '../utils/messages/saveBetween';
+import { exportChatBetween } from '../utils/messages/exportBetweenMassages'; 
+import { exportUserConversationsAsCSV } from '../utils/messages/exportAllUserMessages';
 
 // Display the chat page
 export const showChat = (req: Request, res: Response) => {
@@ -26,7 +27,7 @@ export const sendMessage = async (req: Request, res: Response) => {
     }
 };
 
-export const exportChatBetweenController = async(req: Request, res: Response) => {
+export const exportChatBetweenAsCSVController = async(req: Request, res: Response) => {
     try {
         const conversations = await exportChatBetween(req.body.startDate, req.body.endDate);
         res.status(200).json({ conversations }); 
@@ -35,6 +36,18 @@ export const exportChatBetweenController = async(req: Request, res: Response) =>
         res.status(500).json({ message: 'Error when calling the function exportChatBetween.' });
     }
 }
+
+export const exportUserConversationsAsCSVController = async(req: Request, res: Response) => {
+    try {
+        const conversations = await exportUserConversationsAsCSV(req, res);
+        res.status(200).json({ conversations }); 
+    } catch (error) {
+        console.error('Error when calling the function exportChatBetween :', error);
+        res.status(500).json({ message: 'Error when calling the function exportChatBetween.' });
+    }
+}
+
+
 
 /////////////////////////////////// CRUD //////////////////////////////////
 
