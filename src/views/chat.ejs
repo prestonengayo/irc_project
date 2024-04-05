@@ -97,13 +97,16 @@
 
       //create private channel
       function createOrSelectPrivateChannel(otherUserId, otherName) {
+
+        const uniqueId = Date.now();
+        const uniqueName = `${otherName}-${uniqueId}`;
         fetch('/channels', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-                name: otherName,
+                name: uniqueName,
                 description: `${otherName}`,
                 type: "private_message",
                 members: [otherUserId] // Assurez-vous que ceci est un tableau
