@@ -6,8 +6,11 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
+    <header>
+      <p><a href="/">My IRC Chat</a></p>
+  </header>
     <div id="login-container">
-      <h1>Connexion</h1>
+      <h1 class="reset">Connexion</h1>
       <form id="login-form" action="/user/login" method="post">
         <input
           type="text"
@@ -23,10 +26,10 @@
           placeholder="Mot de passe"
           required
         />
-        <button type="submit">Connexion</button>
+        <button id="login_button" type="submit">Se connecter</button>
       </form>
       <p>
-        Mot de passe oublié ? <a href="user/ask-reset">Demander un nouveau</a>
+        Mot de passe oublié ? <a href="user/ask-reset">Réinitialiser le mot de passe</a>
       </p>
       <p>
         Vous n'avez pas de compte ? <a href="/registration">Inscrivez-vous</a>

@@ -6,15 +6,12 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
 
-
-    
-
   <body>
     <header>
-      <p>My IRC Chat</p>
+      <p><a href="/">My IRC Chat</a></p>
       <div>
         <p><%= username %></p> 
-        <a href="/user/logout">Déconnexion</a>
+        <a id="link_menu" href="/user/logout">Déconnexion</a>
       </div>
     </header>
 
@@ -74,7 +71,7 @@
         <button id="send-button">Envoyer</button>
       </form>
       <div id="bar">
-        <a id="showCreateChannel">Liste des utilisateurs</a>
+        <h3 id="user_list">Liste des utilisateurs</h3>
         <div id="user-list">
           <% users.forEach(function(user) { %>
             <% if (user._id.toString() !== userId.toString()) { %>

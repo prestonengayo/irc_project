@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historique des Conversations</title>
 </head>
+<header>
+    <p><a href="/">My IRC Chat</a></p>
+    <div>
+        <% if (isAdmin) { %>
+            <a href="/admin">Tableau de bord</a>
+        <% } else { %>
+            <a href="/profile">Profile</a>
+        <% } %>
+    </div>
+</header>
 <body>
     <h1>Historique des Conversations de l'Utilisateur</h1>
     <ul>

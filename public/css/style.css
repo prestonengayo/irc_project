@@ -6,9 +6,9 @@ html, body{
 header{
   display: flex;
   justify-content: space-between;
-  background-color: #2b3035;
+  background-color: #000000;
   color: white;
-  padding: 0px 25px;
+  padding: 10px 25px;
 }
 
 header div{
@@ -20,12 +20,30 @@ header div{
 
 header div a{
   text-decoration: none;
-  color: red;
-  background-color: white;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
   padding: 8px;
   border-radius: 4px;
 }
 
+a {
+  text-decoration: none; 
+}
+
+header  a {
+  text-decoration: none; /* Remove underline */
+  color: white; /* Set the text color to white */
+  font-weight: bold; /* Set the font weight to bold */
+  padding: 8px;
+  border-radius: 4px;
+  
+  transition: background-color 0.3s; /* Add a smooth transition effect */
+}
+
+header  a:hover {
+  background-color: #ffffff; /* Change the background color on hover */
+  color: black;
+}
 .container {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -55,15 +73,50 @@ input[type="password"] {
   border-radius: 5px;
 }
 
-button, #containerBtn a , #showCreateChannel{
-  width: 100%;
+#link_menu, button, #containerBtn a {
+  width: 45%;
   padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
   border-radius: 5px;
   cursor: pointer;
+  display: block;
+  margin: 0 auto; 
+  text-align: center;
 }
+
+#showCreateChannel {
+  width: 35%;
+  padding: 8px;
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto; 
+  text-align: center;
+}
+
+#showCreateChannel:hove r{
+  background-color: #ffffff; 
+  color: rgb(0, 0, 0);
+}
+#user_list {
+  
+  font-size: 1.3em;
+}
+
+#link_menu:hover, button:hover, #containerBtn a:hover  {
+  background-color: #000000; 
+  color: rgb(255, 255, 255);
+}
+
+#login_button {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+
 
 #messages {
   border: 1px solid #ddd;
@@ -154,4 +207,17 @@ button, #containerBtn a , #showCreateChannel{
 
 hr{
   color: #ececec;
+}
+
+.reset{
+  text-align: center;
+}
+
+#login-container{
+  margin-top: 5%;
+}
+
+.user-option, .channel-option{
+  text-align: center;
+
 }
