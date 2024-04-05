@@ -3,6 +3,8 @@ import Message from '../models/chatModel';
 import { exportChatBetween } from '../utils/messages/exportBetweenMassages'; 
 import { exportUserConversationsAsCSV } from '../utils/messages/exportAllUserMessages';
 
+
+
 // Display the chat page
 export const showChat = (req: Request, res: Response) => {
     res.render('chat', { error: null }); 
@@ -47,6 +49,19 @@ export const exportUserConversationsAsCSVController = async(req: Request, res: R
     }
 }
 
+// Show all messages for a specific user
+export const getUserMessages = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params; 
+        
+        const userMessages = await Message.find({ user: userId });
+
+        res.status(200).json(userMessages);
+    } catch (error) {
+        console.error('Error while trying to retrieve all messages from the user :', error);
+        res.status(500).json({ message: 'Error while trying to retrieve all messages from the user.' });
+    }
+};
 
 
 /////////////////////////////////// CRUD //////////////////////////////////

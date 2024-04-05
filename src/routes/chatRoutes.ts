@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { exportUserConversationsAsCSVController, exportChatBetweenAsCSVController, showChat, sendMessage, showPrivateChat, getAllMessages } from '../controllers/chatController';
+import { getUserMessages, exportUserConversationsAsCSVController, exportChatBetweenAsCSVController, showChat, sendMessage, showPrivateChat, getAllMessages } from '../controllers/chatController';
 
 const router = Router();
 
@@ -7,7 +7,9 @@ router.post('/messages', sendMessage);
 router.get('/', showChat);
 router.get('/private', showPrivateChat);
 router.post('/save-between', exportChatBetweenAsCSVController);
-router.post('/save_all', exportUserConversationsAsCSVController );
+router.post('/save-all', exportUserConversationsAsCSVController );
+router.get('/user-all-mes', getUserMessages );
+//router.get('/user-all-mes', getUserMessages );
 
 router.get('/all', getAllMessages);
 export default router;
