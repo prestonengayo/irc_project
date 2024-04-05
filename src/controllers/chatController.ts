@@ -52,10 +52,8 @@ export const exportUserConversationsAsCSVController = async(req: Request, res: R
 export const getUserMessages = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params; 
-        
         const userMessages = await Message.find({ user: userId });
-
-        res.status(200).json(userMessages);
+        res.render('allUserChat', { messages: userMessages }); 
     } catch (error) {
         console.error('Error while trying to retrieve all messages from the user :', error);
         res.status(500).json({ message: 'Error while trying to retrieve all messages from the user.' });
