@@ -2,7 +2,7 @@ import mongoose, { Document } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator' ;
 
 // structure
-interface IUser extends Document {
+export interface IUser extends Document {
     username: string;
     password: string;
     email: string;

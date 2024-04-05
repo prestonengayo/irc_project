@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import Message from '../models/chatModel';
-
-
+import Message, { IMessage } from '../models/chatModel';
+import { getUserConversations } from '../utils/messages/getUserConversations';
+import { getUserConversationsBetweenDates } from '../utils/messages/getUserConversationsBetweenDates';
 
 
 // Display the chat page
@@ -30,32 +30,24 @@ export const sendMessage = async (req: Request, res: Response) => {
 
 
 // Show all messages for a specific user
-export const getUserMessages = async (req: Request, res: Response) => {
+export const getUserConversationsController = async (req: Request, res: Response) => {
     try {
-        const { userId } = req.params;
-        const userConversations = await Message.find({
-            $or: [{ user: userId }, { receiverId: userId }] 
-        }); // populate prends tous les info des champs user et son interlocuteur
-        res.status(200).json({ userConversations });
+        await getUserConversations(req, res);
     } catch (error) {
-        console.error('Error while trying to retrieve all messages from the user :', error);
-        res.status(500).json({ message: 'Error while trying to retrieve all messages from the user.' });
+        console.error('Error when calling the function getUserConversations :', error);
+        res.status(500).json({ message: 'Error when calling the function getUserConversations.' });
     }
 };
 
+
 // Messages from all users between two dates 
 
-export const getMessagesBetweenDates = async (req: Request, res: Response) => {
+export const getUserConversationsBetweenDatesController = async (req: Request, res: Response) => {
     try {
-        const { startDate, endDate } = req.body;
-        const messages = await Message.find({
-            createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
-        }); // Populate 'user' = display user details
- 
-        console.log({ messages }); 
+        await getUserConversationsBetweenDates(req, res);
     } catch (error) {
-        console.error('Error retrieving messages between dates:', error);
-        res.status(500).send('Error retrieving messages between dates.');
+        console.error('Error when calling the function getUserConversationsBetweenDates :', error);
+        res.status(500).json({ message: 'Error when calling the function getUserConversationsBetweenDates.' });
     }
 };
 

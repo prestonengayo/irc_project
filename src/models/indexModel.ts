@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 // Structure
-interface IChannel extends Document {
+export interface IChannel extends Document {
     name: string;
     description: string;
     
