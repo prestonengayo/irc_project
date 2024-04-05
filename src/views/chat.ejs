@@ -25,16 +25,26 @@
         <div id="channels-list">
           <% channels.forEach(function(channel) { %>
             <% 
-              // Pour les canaux privés, vérifiez si l'utilisateur courant est un membre du canal
-              var isMember = channel.members && channel.members.some(member => member.toString() === userId.toString());
+              // S'assurer que channel.members existe et n'est pas vide
+              var isMember = channel.members && channel.members.length > 0 && channel.members.some(function(member) {
+                // Ajouter une vérification supplémentaire pour s'assurer que member n'est pas null
+                return member && member.toString() === userId.toString();
+              });
             %>
             <% if (channel.type === 'private_message' && isMember) { %>
               <% 
-                // Trouver l'ID du destinataire (autre que l'utilisateur courant)
-                var recipientId = channel.members.find(member => member.toString() !== userId.toString());
-                var recipient = users.find(user => user._id.toString() === recipientId.toString());
-                // Déterminer le nom du destinataire
-                var recipientName = recipient ? recipient.username : 'Inconnu';
+                // S'assurer que channel.members existe et n'est pas vide avant de chercher le destinataire
+                if (channel.members && channel.members.length > 0) {
+                  var recipientId = channel.members.find(function(member) {
+                    // Ajouter une vérification supplémentaire pour s'assurer que member n'est pas null
+                    return member && member.toString() !== userId.toString();
+                  });
+                  var recipient = users.find(function(user) {
+                    return recipientId && user._id.toString() === recipientId.toString();
+                  });
+                  // Déterminer le nom du destinataire
+                  var recipientName = recipient ? recipient.username : 'Inconnu';
+                }
               %>
               <div class="channel-option" data-channel-id="<%= channel._id %>">
                 <p><%= recipientName %></p>
@@ -48,6 +58,7 @@
             <% } %>
           <% }); %>
         </div>
+        
       </div>
       
   

@@ -13,7 +13,7 @@ const channelSchema: Schema = new Schema({
     name: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     type: { type: String, required: true, enum: ['public_message', 'private_message', 'group_message'] },
-    members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    members: [{ type: Schema.Types.ObjectId, ref: 'User'}],
   });
 
 // Model from schema
