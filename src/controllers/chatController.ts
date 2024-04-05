@@ -27,26 +27,7 @@ export const sendMessage = async (req: Request, res: Response) => {
         res.render('index', { error: 'Identifiants incorrects.' });
     }
 };
-/*
-export const exportChatBetweenAsCSVController = async(req: Request, res: Response) => {
-    try {
-        const conversations = await exportChatBetween(req.body.startDate, req.body.endDate);
-        res.status(200).json({ conversations }); 
-    } catch (error) {
-        console.error('Error when calling the function exportChatBetween :', error);
-        res.status(500).json({ message: 'Error when calling the function exportChatBetween.' });
-    }
-}
 
-export const exportUserConversationsAsCSVController = async(req: Request, res: Response) => {
-    try {
-        const conversations = await exportUserConversationsAsCSV(req, res);
-        res.status(200).json({ conversations }); 
-    } catch (error) {
-        console.error('Error when calling the function exportChatBetween :', error);
-        res.status(500).json({ message: 'Error when calling the function exportChatBetween.' });
-    }
-}*/
 
 // Show all messages for a specific user
 export const getUserMessages = async (req: Request, res: Response) => {
@@ -57,6 +38,22 @@ export const getUserMessages = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error while trying to retrieve all messages from the user :', error);
         res.status(500).json({ message: 'Error while trying to retrieve all messages from the user.' });
+    }
+};
+
+// Messages from all users between two dates 
+
+export const getMessagesBetweenDates = async (req: Request, res: Response) => {
+    try {
+        const { startDate, endDate } = req.body;
+        const messages = await Message.find({
+            createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
+        }); // Populate the 'user' field if you want to display user details
+
+        res.render('messagesBetweenDates', { messages }); 
+    } catch (error) {
+        console.error('Error retrieving messages between dates:', error);
+        res.status(500).send('Error retrieving messages between dates.');
     }
 };
 
