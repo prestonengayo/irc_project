@@ -5,6 +5,7 @@ import { handleLogout } from '../utils/authentication/logout';
 import { registerUser } from '../utils/authentication/register';
 import { renderResetPasswordPage } from '../utils/authentication/passwordReset/renderResetPasswordPage'; 
 import { savePassword } from '../utils/authentication/passwordReset/savePassword';
+import { profilePage } from '../utils/authentication/profile'; 
 import User from '../models/userModel';
 import bcrypt from 'bcrypt';
 
@@ -76,6 +77,17 @@ export const savePasswordController = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error when calling the function savePassword :', error);
         res.status(500).json({ message: 'Error when calling the function savePassword.' });
+    }
+};
+
+// User and Admin profile page
+
+export const profilePageController =  async (req: Request, res: Response) => {
+    try {
+        await profilePage(req, res);
+    } catch (error) {
+        console.error('Error when calling the function profilePage :', error);
+        res.status(500).json({ message: 'Error when calling the function profilePage.' });
     }
 };
 

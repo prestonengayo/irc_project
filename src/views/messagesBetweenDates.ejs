@@ -13,9 +13,19 @@
         <% } else { %>
             <a href="/profile">Profile</a>
         <% } %>
+       
     </div>
 </header>
 <body>
+    <form action="/conversation-history" method="post">
+        <label for="startDate">Date de début:</label>
+        <input type="date" id="startDate" name="startDate" required>
+
+        <label for="endDate">Date de fin:</label>
+        <input type="date" id="endDate" name="endDate" required>
+
+        <button type="submit">Rechercher</button>
+    </form>
     <h1>Historique des Conversations de l'Utilisateur</h1>
     <ul>
         <% conversations.forEach(conversation => { %>

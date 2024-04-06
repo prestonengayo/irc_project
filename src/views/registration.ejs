@@ -1,31 +1,49 @@
-<!DOCTYPE html>
-<html lang="fr">
-
 <head>
-  <meta charset="UTF-8" />
-  <title>My IRC Chat</title>
-  <link rel="stylesheet" href="/css/style.css" />
-</head>
-<header>
-  <p><a href="/">My IRC Chat</a></p>
-</header>
-
-<body>
-  <div id="login-container">
-    <h1>Enrégistrement</h1>
-    <form id="login-form" action="/user/add" method="post">
-      <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required />
-      <input type="email" name="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" name="password" placeholder="Mot de passe" required />
-      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmez le mot de passe"
-        required />
-      <button type="submit">S'inscrire</button>
-    </form>
-    <p>
-      Vous avez déjà un compte ? <a  href="/">Se connecter</a>
-    </p>
-  </div>
-  <script src="/js/login.js"></script>
-</body>
-
+    <meta charset="UTF-8" />
+    <title>Inscription | Mon IRC</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <p><a href="/">My IRC Chat</a></p>
+  </header>
+    <div id="login-container">
+      <h1 class="reset">Inscription</h1>
+      <form id="login-form" action="/user/add" method="post">
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Nom d'utilisateur"
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="email"
+          required
+        />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Mot de passe"
+          required
+        />
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          placeholder="Confirmer le mot de passe"
+          required
+        />
+        <button id="login_button" type="submit">S'inscrire</button>
+      </form>
+      <p>
+        Vous avez déjà un compte ? <a href="/">Connectez-vous</a>
+      </p>
+    </div>
+    
+  </body>
 </html>

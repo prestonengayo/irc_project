@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Chat | Mon IRC</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <header>
+        <p><a href="/">My IRC Chat</a></p>
+        <div>
+            <p>
+                <%= username %>
+            </p>
+            <a id="link_menu" href="/user/logout">Déconnexion</a>
+            
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="bar">
+            <h2>Information profile</h2>
+            <p><strong>Nom:</strong>
+                <%= username %>
+            </p>
+            <p><strong>Email:</strong>
+                <%= email %>
+            </p>
+           <a href="http://localhost:3000/chat/user-all-mes/<%= userId %>">Historique des Conversations</a> 
+        </div>
+    </div>
+
+</body>
+
+</html>
