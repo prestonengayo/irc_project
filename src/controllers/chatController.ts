@@ -41,13 +41,13 @@ export const showCreateChannel = async (req: Request, res: Response) => {
 // Show all messages for a specific user
 export const getUserConversationsController = async (req: Request, res: Response) => {
     try {
-        await getUserConversations(req, res);
+        const userId = req.params.userId; 
+        await getUserConversations(userId, req, res); 
     } catch (error) {
         console.error('Error when calling the function getUserConversations :', error);
         res.status(500).json({ message: 'Error when calling the function getUserConversations.' });
     }
 };
-
 
 // Messages from all users between two dates 
 
