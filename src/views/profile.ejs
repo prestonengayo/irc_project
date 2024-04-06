@@ -26,10 +26,9 @@
             <div id="login-container">
                 <% if (!isAdmin) { %>
                     <h2>Information profile : <%= username %></h2>
+                <% } else {%>
+                    <h2><strong>Admin : <%= username %></h2>
                 <% } %>
-                
-                <h2><strong>Admin : <%= username %></h2>
-                    
                 </p>
                 <p><strong>Email : <%= email %></strong>
                     
