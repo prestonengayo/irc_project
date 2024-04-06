@@ -27,13 +27,16 @@ export const getUserConversations = async (req: Request, res: Response) => {
         for (const conversation of userConversations) {
             // channel name
             const channel: IChannel | null = await Channel.findById(conversation.channel);
-            const channelName: string = channel ? channel.name : '';
+            const channelName: string = channel ? channel.name : 'No channel';
+
+            const receiver = await User.findById(conversation.receiverId); // Receiver  info
+            const receiverName: string = receiver ? receiver.username : 'No specific receiver';
 
             // Format conversations
             const formattedConversation: any = {
-                _id: conversation._id,
                 content: conversation.content,
-                user: conversation.user, // Utiliser directement l'ID de l'utilisateur
+                user: conversation.user,
+                receiver: receiverName ,
                 channel: channelName,
                 messageType: conversation.messageType,
                 createdAt: conversation.createdAt,
@@ -44,7 +47,7 @@ export const getUserConversations = async (req: Request, res: Response) => {
         }
 
         
-        res.render('allUserChat', { user: user, userId: user._id, messages: formattedConversations });
+        res.render('allUserChat', {  receiver: formattedConversations[2].receiver, username: user.username, userId: user._id, messages: formattedConversations });
     } catch (error) {
         console.error('Erreur lors de la récupération des conversations de l\'utilisateur :', error);
         res.status(500).json({ message: 'Erreur lors de la récupération des conversations de l\'utilisateur.' });

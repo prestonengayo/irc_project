@@ -114,7 +114,13 @@ input[type="password"] {
 #login_button {
   margin-top: 30px;
   margin-bottom: 30px;
+  
 }
+
+.login-form{
+  text-align: center;  
+}
+
 
 
 
