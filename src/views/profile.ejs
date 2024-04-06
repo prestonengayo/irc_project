@@ -46,24 +46,26 @@
 
                     </select>
                     <button onclick="redirectToUserConversation()">Consulter</button>
+
                 <% } else { %>
                     <a href="/chat/user-all-mes/<%= userId %>">Historique des Conversations</a> 
                 <% } %>
             </div>
             
-            <div id="login-container">
-                <h3>Modifier le mot de passe d'un utilisateur</h3>
-                <form action="/user/update-users/<%= userId%>" method="post">
-                    <select id="userIdSelect" name="userId">
-                        <% users.forEach(user => { %>
-                            <option value="<%= user._id %>"><%= user.username %></option>
-                        <% }); %>
-                    </select>
-                    <input type="password" name="newPassword" placeholder="Nouveau mot de passe" required>
-                    <button type="submit">Modifier</button>
-                </form>
-            </div>
-            
+            <% if (isAdmin) { %>
+                <div id="login-container">
+                    <h3>Modifier le mot de passe d'un utilisateur</h3>
+                    <form action="/user/update-users/<%= userId%>" method="post">
+                        <select id="userIdSelect" name="userId">
+                            <% users.forEach(user => { %>
+                                <option value="<%= user._id %>"><%= user.username %></option>
+                            <% }); %>
+                        </select>
+                        <input type="password" name="newPassword" placeholder="Nouveau mot de passe" required>
+                        <button type="submit">Modifier</button>
+                    </form>
+                </div>
+            <% } %>
     
         </div>
     </div>
