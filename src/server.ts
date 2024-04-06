@@ -4,6 +4,7 @@ import app from './app'; // Import the configured Express instance from app.ts
 import { connectDB } from './utils/db';
 import Message from './models/chatModel';
 import { initSocket, getIO } from "./config/socket";
+
 // Database connexion
 connectDB();
 

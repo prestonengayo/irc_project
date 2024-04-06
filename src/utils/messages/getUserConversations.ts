@@ -3,9 +3,9 @@ import Message, { IMessage } from '../../models/chatModel';
 import User, { IUser } from '../../models/userModel';
 import Channel, { IChannel } from '../../models/indexModel';
 
-export const getUserConversations = async (req: Request, res: Response) => {
+export const getUserConversations = async (userId: string, req: Request, res: Response) => {
     try {
-        const { userId } = req.session; // Session id
+        /*const { userId } = req.session;*/
         const user = await User.findById(userId); // User info
 
         

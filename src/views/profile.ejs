@@ -9,7 +9,7 @@
 
 <body>
     <header>
-        <p><a href="/">My IRC Chat</a></p>
+        <p><a href="/chat">My IRC Chat</a></p>
         <div>
             <% if (isAdmin) { %>
                 <p>Admin</p>
@@ -47,7 +47,7 @@
                     </select>
                     <button onclick="redirectToUserConversation()">Consulter</button>
                 <% } else { %>
-                    <a href="http://localhost:3000/chat/user-all-mes/<%= userId %>">Historique des Conversations</a> 
+                    <a href="/chat/user-all-mes/<%= userId %>">Historique des Conversations</a> 
                 <% } %>
             </div>
             
@@ -74,7 +74,7 @@
             var selectedUserId = selectElement.value;
     
             // Construct the redirect URL with the selected user ID
-            var redirectUrl = "http://localhost:3000/chat/user-all-mes/" + selectedUserId;
+            var redirectUrl = "/chat/user-all-mes/" + selectedUserId;
     
             // Redirect the user to the URL
             window.location.href = redirectUrl;

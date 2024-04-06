@@ -14,7 +14,7 @@ header{
 header div{
   display: flex;
   justify-content: space-between;
-  width: 200px;
+  width: 18%;
   align-items: center;
 }
 
@@ -24,6 +24,7 @@ header div a{
   background-color: rgb(255, 255, 255);
   padding: 8px;
   border-radius: 4px;
+  margin: 0px 10px;
 }
 
 a {
@@ -82,7 +83,6 @@ input[type="password"] {
   border-radius: 5px;
   cursor: pointer;
   display: block;
-  margin-left: 8px; 
   text-align: center;
 }
 
