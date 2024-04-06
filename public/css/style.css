@@ -55,7 +55,7 @@ header  a:hover {
 }
 
 #login-container,
-#chat-container {
+#chat-container, .message-box {
   max-width: 600px;
   margin:auto;
   padding: 20px;

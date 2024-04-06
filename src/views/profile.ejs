@@ -11,9 +11,11 @@
     <header>
         <p><a href="/chat">My IRC Chat</a></p>
         <div>
-            <p>
+            <% if (isAdmin) { %>
+                <p>Admin</p>
+            <% } else { %>
                 <%= username %>
-            </p>
+            <% } %>
             <a id="link_menu" href="/user/logout">Déconnexion</a>
             
         </div>
@@ -28,9 +30,35 @@
             <p><strong>Email:</strong>
                 <%= email %>
             </p>
-           <a href="http://localhost:3000/chat/user-all-mes/<%= userId %>">Historique des Conversations</a> 
+            <div>
+                <% if (isAdmin) { %>
+                    <select id="userIdSelect">
+                        <% users.forEach(user => { %>
+                            <option value="<%= user._id %>"><%= user.username %></option>
+                        <% }); %>
+
+                    </select>
+                    <button onclick="redirectToUserConversation()">Historique des Conversations</button>
+                <% } else { %>
+                    <a href="http://localhost:3000/chat/user-all-mes/<%= userId %>">Historique des Conversations</a> 
+                <% } %>
+            </div>
+    
         </div>
     </div>
+    <script>
+        function redirectToUserConversation() {
+            // Get the selected value from the dropdown menu
+            var selectElement = document.getElementById("userIdSelect");
+            var selectedUserId = selectElement.value;
+    
+            // Construct the redirect URL with the selected user ID
+            var redirectUrl = "http://localhost:3000/chat/user-all-mes/" + selectedUserId;
+    
+            // Redirect the user to the URL
+            window.location.href = redirectUrl;
+        }
+    </script>
 
 </body>
 
