@@ -14,10 +14,10 @@
     <body>
 
         <div id="login-container">
-            <div class="reset message-box">
+            <div class="reset">
                 <h1>Messages de l'utilisateur</h1>
                 <% messages.forEach(message => { %>
-                    <div class="conversation">
+                    <div class="message-box">
                         <p>Sender : <%= username %></p> <p>Message : <%= message.content %></p>
                         <p>Received by : <%= message.receiver %></p>
                     </div>
