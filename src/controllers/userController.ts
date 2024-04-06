@@ -6,6 +6,7 @@ import { registerUser } from '../utils/authentication/register';
 import { renderResetPasswordPage } from '../utils/authentication/passwordReset/renderResetPasswordPage'; 
 import { savePassword } from '../utils/authentication/passwordReset/savePassword';
 import { profilePage } from '../utils/authentication/profile'; 
+import { updateUsersPassword } from '../utils/authentication/passwordReset/updateUsersPass';
 import User from '../models/userModel';
 import bcrypt from 'bcrypt';
 
@@ -90,6 +91,19 @@ export const profilePageController =  async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error when calling the function profilePage.' });
     }
 };
+
+
+// Update users pass by Admin account
+export const updateUsersPasswordController =  async (req: Request, res: Response) => {
+    try {
+        await updateUsersPassword(req, res);
+    } catch (error) {
+        console.error('Error when calling the function profilePage :', error);
+        res.status(500).json({ message: 'Error when calling the function profilePage.' });
+    }
+};
+
+
 
 
 /////////////////////////////////// CRUD //////////////////////////////////

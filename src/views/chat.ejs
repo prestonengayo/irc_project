@@ -10,7 +10,12 @@
     <header>
       <p><a href="/">My IRC Chat</a></p>
       <div>
-        <p><%= username %></p>
+        
+        <% if (isAdmin) { %>
+          <p>Admin</p>
+      <% } else { %>
+          <%= username %>
+      <% } %>
         <a href="/user/profile" id="link_menu">Profile</a>
         <a id="link_menu" href="/user/logout">Déconnexion</a>
       </div>

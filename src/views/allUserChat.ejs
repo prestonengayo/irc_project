@@ -8,7 +8,12 @@
     <header>
         <p><a href="/">My IRC Chat</a></p>
         <div>
-            <a id="link_menu" href="http://localhost:3000/user/profile">Profile</a>
+            <% if (isAdmin) { %>
+                <a id="link_menu" href="http://localhost:3000/user/profile">Espace Admin</a>
+            <% } else { %>
+                <a id="link_menu" href="http://localhost:3000/user/profile">Profile</a>
+            <% } %>
+            
         </div>
     </header>
     <body>

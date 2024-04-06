@@ -1,5 +1,5 @@
 import { Router} from 'express';
-import { profilePageController, savePasswordController, renderResetPasswordPageController, registerUserController, handleLoginController,  passwordResetController, getUserById, getAllUsers, createUser, deleteUser, updateUser, askReset, handleLogoutController } from '../controllers/userController';
+import { profilePageController, savePasswordController, renderResetPasswordPageController, registerUserController, handleLoginController,  passwordResetController, getUserById, getAllUsers, createUser, deleteUser, updateUser, askReset, handleLogoutController, updateUsersPasswordController } from '../controllers/userController';
 
 
 const router = Router();
@@ -11,6 +11,7 @@ router.post('/send-mail', passwordResetController);
 router.get('/reset/:token', renderResetPasswordPageController); 
 router.post('/save-password', savePasswordController); 
 router.get('/profile', profilePageController);
+router.post('/update-users/:userId', updateUsersPasswordController);
 
 
 

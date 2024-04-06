@@ -47,7 +47,7 @@ export const getUserConversations = async (req: Request, res: Response) => {
         }
 
         
-        res.render('allUserChat', {  receiver: formattedConversations[2].receiver, username: user.username, userId: user._id, messages: formattedConversations });
+        res.render('allUserChat', {  receiver: formattedConversations[2].receiver, isAdmin: user.username, username: user.username, userId: user._id, messages: formattedConversations });
     } catch (error) {
         console.error('Erreur lors de la récupération des conversations de l\'utilisateur :', error);
         res.status(500).json({ message: 'Erreur lors de la récupération des conversations de l\'utilisateur.' });

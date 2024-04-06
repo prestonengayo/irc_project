@@ -15,7 +15,10 @@ export const showChat = async (req: Request, res: Response) => {
     
     const userId = req.session.userId; 
     const user = await User.findById(req.session.userId);
-    res.render('chat', { users, channels, userId, username: user!.username}); 
+    if (!user) {
+        return res.status(404).send('User nor found.');
+    }
+    res.render('chat', { isAdmin: user.isAdmin, users, channels, userId, username: user!.username}); 
 };
 
 
