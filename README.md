@@ -1,6 +1,11 @@
-# Projet MyIRC
+# Internet Relay Chat
 
-# GROUPE 
-# Chahra REDIF | Prestone Olaf NGAYO NZAMBI | Bella OZDAMIROVA
+With instant communication throuth group discussion, private messaging and
+secure profile access for users and Admin.
+
+( Express / Socket.io / MongoDB )
 
 ![UML DATABASE](UML_IRC.png)
+
+
+Bella OZDAMIROVA | Prestone Olaf NGAYO NZAMBI
